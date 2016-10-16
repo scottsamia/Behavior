@@ -6,7 +6,7 @@ behavior.firebase = function () {
 
         // Initialize Firebase
         config = {
-            apiKey: "AIzaSyAdmXclK9MKqyBOtWi5YNoMirgsHAatFPo",
+            apiKey: "",
             authDomain: "behavior-1a553.firebaseapp.com",
             databaseURL: "https://behavior-1a553.firebaseio.com",
             storageBucket: "behavior-1a553.appspot.com",
