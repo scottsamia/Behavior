@@ -1,5 +1,8 @@
-﻿{
-  "userSecretsId": "aspnet-WebApplication1-a39ef27d-ea86-44a0-ac7f-919d76cf4d03",
+{
+  "title": "Behavior",
+  "copyright": "Scott Samia",
+  "language": "en",
+  "userSecretsId": "aspnet-Behavior-a39ef27d-ea86-44a0-ac7f-919d76cf4d03",
 
   "dependencies": {
     "Microsoft.NETCore.App": {
@@ -40,11 +43,12 @@
       "version": "1.0.0-preview2-final",
       "type": "build"
     },
-    "Microsoft.VisualStudio.Web.CodeGenerators.Mvc":  {
+    "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": {
       "version": "1.0.0-preview2-final",
       "type": "build"
-    }
-  },
+    },
+    "FireSharp": "2.0.4",
+    "FirebaseDatabase.net": "1.1.5"  },
 
   "tools": {
     "BundlerMinifier.Core": "2.0.238",

@@ -11,7 +11,12 @@
   {
     "outputFileName": "wwwroot/js/site.min.js",
     "inputFiles": [
-      "wwwroot/js/site.js"
+      "wwwroot/js/site.js",
+      "wwwroot/js/firebaseFunctions.js",
+      "wwwroot/js/firebaseEvents.js",
+      "wwwroot/js/counterFunctions.js",
+      "wwwroot/js/counterEvents.js",
+      "wwwroot/js/studentFunctions.js"
     ],
     // Optionally specify minification options
     "minify": {

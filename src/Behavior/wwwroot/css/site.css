@@ -48,3 +48,18 @@ textarea {
     display: none
   }
 }
+
+body { padding-top: 70px; }
+
+.top-buffer { margin-top:20px; }
+
+.counterBtn { height: 100px; }
+.counterLbl-sm {
+    font-size:large;
+}
+.counterLbl-md {
+    font-size:x-large;
+}
+.counterLbl-lg {
+    font-size:xx-large;
+}

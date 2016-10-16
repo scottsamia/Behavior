@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using WebApplication1.Data;
-using WebApplication1.Models;
-using WebApplication1.Services;
+using Behavior.Data;
+using Behavior.Models;
+using Behavior.Services;
 
-namespace WebApplication1
+namespace Behavior
 {
     public class Startup
     {
@@ -90,7 +90,7 @@ namespace WebApplication1
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Counter}/{id?}");
             });
         }
     }
