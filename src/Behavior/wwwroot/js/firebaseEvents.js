@@ -1,4 +1,4 @@
-﻿$('#addUser').on("click", function () {
+﻿$('#addStudent').on("click", function () {
     var student = {
         firstName: $('#FirstName').val(),
         lastName: $('#LastName').val(),
@@ -17,4 +17,23 @@
         $('select#Behaviors').val([]);
     }
         
+});
+
+$('#updateStudent').on("click", function () {
+    var student = {
+        id: $('input#id').val(),
+        attributes: {
+            firstName: $('input#FirstName').val(),
+            lastName: $('input#LastName').val(),
+            age: $('input#Age').val()
+        }
+    };
+   
+
+    if (behavior.firebase.updateStudent(student)) {
+        //$('input#FirstName').val("");
+        //$('input#LastName').val("");
+        //$('input#Age').val(0);
+    }
+
 });

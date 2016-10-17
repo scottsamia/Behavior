@@ -6,10 +6,13 @@
 
 <form asp-action="View">
 
-
     <div class="row">
-        <div class="col-xs-12">
-            <h2 class="studentFullNameLbl text-center"></h2>
+        <div class="col-xs-8 text-right">
+            <h2 class="studentFullNameLbl"></h2>
+        </div>
+        <div class="col-xs-4">
+            <br />
+            <a asp-controller="Firebase" asp-action="UpdateStudent" asp-route-id="@Model.student.ID" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-edit"></span>Edit</a>
         </div>
     </div>
     <div class="row top-buffer">
@@ -43,15 +46,24 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
-        var fireBaseRef = behavior.firebase;
+        var fireBaseRef, currCounter, student;
+            fireBaseRef = behavior.firebase;
         
-        fireBaseRef.init();
+            fireBaseRef.init(function (initComplete) {
+                if (initComplete) {
+                    currCounter = behavior.counter;
+                    student = behavior.student;
+                    currCounter.init();
+                    student.init(fireBaseRef.database);
+                    student.getStudentById("@Model.student.ID", function (student) {
+                        $(".studentFirstNameLbl").text(student.firstName);
+                        $(".studentLastNameLbl").text(student.lastName);
+                        $(".studentFullNameLbl").text(student.firstName + " " + student.lastName);
+                    });
+                }
+        });
 
-        var database = fireBaseRef.database;
-        var currCounter = behavior.counter;
-        var student = behavior.student;
-        currCounter.init();
-        student.init(database, "Samia");
+        
 
     </script>
 }

@@ -8,7 +8,7 @@ namespace Behavior.Models
 {
     public class Student : ApplicationUser
     {
-        public int ID { get; set; }
+        public string ID { get; set; }
         public string Class { get; set; }
         public double Height { get; set; }
         public double Age { get; set; }

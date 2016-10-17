@@ -1,14 +1,16 @@
-@model Behavior.Models.FirebaseViewModels.AddStudentViewModel
+@model Behavior.Models.FirebaseViewModels.UpdateStudentViewModel
 
 @{
-    ViewData["Title"] = "Add Student";
+    ViewData["Title"] = "UpdateStudent";
 }
-<a asp-controller="Home" asp-action="Index" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span>Back to List</a>
-<h2>Add Student</h2>
 
-<form asp-action="AddStudent">
+<a asp-controller="Home" asp-action="Counter" asp-route-id="@Model.id" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span>Back to Counter</a>
+<h2>Update Student</h2>
+
+<form asp-action="UpdateStudent">
     <div class="form-horizontal">
         <hr />
+        <input type="hidden" asp-for="id">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
             <label asp-for="FirstName" class="col-md-2 control-label"></label>
@@ -32,19 +34,9 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Behaviors" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <select name="Behaviors" id="Behaviors" multiple class="form-control">
-                    <optgroup label="Behaviors"></optgroup>
-                </select>
-                <span asp-validation-for="Behaviors" class="text-danger" />
-            </div>
-        </div>
-        
-        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 @*<input type="submit" value="Create" class="btn btn-default" />*@
-                <button type="button" id="addStudent" class="btn btn-default btn-lg">Add Student</button>
+                <button type="button" id="updateStudent" class="btn btn-default btn-lg">Update Student</button>
             </div>
         </div>
     </div>
@@ -59,19 +51,11 @@
         fireBaseRef.init(function (initComplete) {
             if (initComplete) {
                 student = behavior.student;
-
-                fireBaseRef.getListOfBehaviors(function (behaviors) {
-                    for (var key in behaviors) {
-                        var behavior = behaviors[key];
-                        var option = $('<option/>',
-                        {
-                            text: behavior.Name,
-                            value: key,
-                        });
-
-                        $('#Behaviors').append(option);
-
-                    }
+                student.init(fireBaseRef.database);
+                student.getStudentById("@Model.id", function (student) { 
+                    $("input#FirstName").val(student.firstName);
+                    $("input#LastName").val(student.lastName);
+                    $("input#Age").val(student.age);
                 });
             }
         });

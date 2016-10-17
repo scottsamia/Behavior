@@ -34,9 +34,10 @@ namespace Behavior.Controllers
             return View();
         }
 
-        public IActionResult Counter()
+        public IActionResult Counter(string id)
         {
             CounterViewModel model = new CounterViewModel();
+            model.student.ID = string.IsNullOrEmpty(id) ? "" : id;
             return View("Counter", model);
         }
     }

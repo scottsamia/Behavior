@@ -57,6 +57,8 @@ namespace Behavior
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+
+            services.Configure<FirebaseConfig>(Configuration.GetSection("FirebaseConfig"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -90,7 +92,7 @@ namespace Behavior
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Counter}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

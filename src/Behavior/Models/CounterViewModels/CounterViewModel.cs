@@ -7,8 +7,13 @@ namespace Behavior.Models.CounterViewModels
 {
     public class CounterViewModel
     {
-        public Student Student { get; set; }
-        public Teacher Teacher { get; set; }
+        public CounterViewModel()
+        {
+            student = new Student();
+            teacher = new Teacher();
+        }
+        public Student student { get; set; }
+        public Teacher teacher { get; set; }
 
     }
 }
