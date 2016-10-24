@@ -9,6 +9,7 @@
     <div class="row">
         <div class="col-xs-8 text-right">
             <h2 class="studentFullNameLbl"></h2>
+            <input type="hidden" id="studentID" name="studentID" value="@Model.student.ID">
         </div>
         <div class="col-xs-4">
             <br />
@@ -17,8 +18,27 @@
     </div>
     <div class="row top-buffer">
 
+        <div class="col-xs-12">
+
+            <select name="Behaviors" id="Behaviors" class="form-control">
+            </select>
+
+        </div>
+    </div>
+    <div class="row top-buffer">
+
         <div class="col-xs-12 text-center">
             <h3>Count: <kbd class="counterLbl counterLbl-lg"></kbd></h3>
+        </div>
+    </div>
+    <div class="row hidden" id="resultsSection">
+
+        <div class="col-xs-12 text-center">
+            <h3>Duration: <kbd id="SessionDuration"></kbd></h3>
+            <br />
+            <button type="button" id="back" class="btn btn-default btn-lg glyphicon glyphicon-menu-left"> Back</button>
+            <button type="button" id="newSession" class="btn btn-primary btn-lg glyphicon glyphicon-plus"> New</button>
+
         </div>
     </div>
     <div class="row top-buffer">
@@ -34,8 +54,9 @@
     </div>
     <div class="row top-buffer">
         <div class="col-xs-12">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="submit" value="Save" class="btn btn-default btn-lg btn-block" />
+            @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="submit" value="Save" class="btn btn-default btn-lg btn-block" />*@
+            <button type="button" id="save" class="btn btn-success btn-lg btn-block glyphicon glyphicon-floppy-disk"> Save</button>
         </div>
     </div>
 
@@ -46,24 +67,47 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
-        var fireBaseRef, currCounter, student;
-            fireBaseRef = behavior.firebase;
-        
-            fireBaseRef.init(function (initComplete) {
-                if (initComplete) {
-                    currCounter = behavior.counter;
-                    student = behavior.student;
-                    currCounter.init();
-                    student.init(fireBaseRef.database);
-                    student.getStudentById("@Model.student.ID", function (student) {
-                        $(".studentFirstNameLbl").text(student.firstName);
-                        $(".studentLastNameLbl").text(student.lastName);
-                        $(".studentFullNameLbl").text(student.firstName + " " + student.lastName);
-                    });
-                }
+        var Student = behavior.student;
+        behavior.firebase.init(function (initComplete) {
+            if (initComplete) {
+
+                Student.init(behavior.firebase.database, "@Model.student.ID");
+                behavior.counter.init(behavior.firebase.database, Student);
+
+                Student.getStudent(function (student) {
+                    $(".studentFirstNameLbl").text(student.firstName);
+                    $(".studentLastNameLbl").text(student.lastName);
+                    $(".studentFullNameLbl").text(student.firstName + " " + student.lastName);
+                    Student.setStudent(student);
+                });
+
+                behavior.firebase.getListOfBehaviors(function (behaviors) {
+
+                    for (var key in behaviors) {
+                        var behavior = behaviors[key];
+                        var option = $('<option/>',
+                        {
+                            text: behavior.Name,
+                            value: key,
+                        });
+
+                        $('#Behaviors').append(option);
+
+                    }
+                });
+
+
+                behavior.firebase.getCountSessions(Student, function (sessions) {
+                    for (var s in sessions) {
+                        console.log(s);
+
+                    }
+                });
+
+            }
         });
 
-        
+
 
     </script>
 }

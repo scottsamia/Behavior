@@ -60,6 +60,18 @@ behavior.firebase = function () {
     deleteStudent = function (key) {
 
     },
+    addCountSession = function (countSession) {
+        var countSession = countSession || {};
+        if (initComplete && !$.isEmptyObject(countSession)) {
+            var newPostKey = this.database.ref().child('countSessions').push().key;
+            var updates = {};
+            updates['/countSessions/' + newPostKey] = countSession;
+            updates['/students/' + countSession.studentID + '/countSessions/' + newPostKey] = true;
+            this.database.ref().update(updates);
+            return countSession;
+        }
+        return {};
+    },
     getListOfStudents = function (callback) {
 
         this.students.once('value').then(function (snapshot) {
@@ -69,6 +81,11 @@ behavior.firebase = function () {
     getListOfBehaviors = function (callback) {
 
         this.behaviors.once('value').then(function (snapshot) {
+            callback(snapshot.val());
+        });
+    },
+    getCountSessions = function (student, callback) {
+        this.students.child(student.id).child('countSessions').once('value').then(function (snapshot) {
             callback(snapshot.val());
         });
     };
@@ -81,6 +98,8 @@ behavior.firebase = function () {
         updateStudent: updateStudent,
         deleteStudent: deleteStudent,
         getListOfStudents: getListOfStudents,
-        getListOfBehaviors: getListOfBehaviors
+        getListOfBehaviors: getListOfBehaviors,
+        addCountSession: addCountSession,
+        getCountSessions: getCountSessions
     };
 }();
