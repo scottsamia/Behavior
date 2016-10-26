@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-sm-12">
         <div class="list-group" id="studentsList">
-            <button type="button" class="list-group-item disabled" data-toggle="modal" data-target="#myModal">Students</button>
+            <button type="button" class="list-group-item disabled" >Students</button>
         </div>
     </div>
 </div>
@@ -40,7 +40,7 @@
                         var student = students[key];
                         var listButton = $('<a/>',
                         {
-                            //href: "/Home/Counter/" + key,
+                            href: "#",
                             text: student.lastName + ', ' + student.firstName
                         }).addClass('list-group-item')
                             .attr("data-toggle", "modal")
