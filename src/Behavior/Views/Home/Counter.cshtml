@@ -16,13 +16,12 @@
             <a asp-controller="Firebase" asp-action="UpdateStudent" asp-route-id="@Model.student.ID" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-edit"></span>Edit</a>
         </div>
     </div>
-    <div class="row top-buffer">
+    <div class="row">
 
-        <div class="col-xs-12">
+        <div class="col-xs-12 text-center">
 
-            <select name="Behaviors" id="Behaviors" class="form-control">
-            </select>
-
+            <h3 class="behaviorLbl"></h3>
+            <input type="hidden" id="behaviorID" name="behaviorID" value="@Model.behavior">
         </div>
     </div>
     <div class="row top-buffer">
@@ -81,21 +80,10 @@
                     Student.setStudent(student);
                 });
 
-                behavior.firebase.getListOfBehaviors(function (behaviors) {
-
-                    for (var key in behaviors) {
-                        var behavior = behaviors[key];
-                        var option = $('<option/>',
-                        {
-                            text: behavior.Name,
-                            value: key,
-                        });
-
-                        $('#Behaviors').append(option);
-
-                    }
+                behavior.firebase.database.ref('/behaviors/' + @Model.behavior).once('value').then(function (snapshot) {
+                    var behavior = snapshot.val();
+                    $('.behaviorLbl').text(behavior.Name);
                 });
-
 
                 behavior.firebase.getCountSessions(Student, function (sessions) {
                     for (var s in sessions) {

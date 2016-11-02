@@ -21,11 +21,12 @@
                 <h4 class="modal-title" id="myModalLabel">Modal title</h4>
             </div>
             <div class="modal-body">
-                ...
+                <div class="form-group">
+
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>
@@ -33,6 +34,7 @@
 
 @section Scripts {
     <script>
+        var behaviorList;
         behavior.firebase.init(function (initComplete) {
             if (initComplete) {
                 behavior.firebase.getListOfStudents(function (students) {
@@ -52,7 +54,19 @@
 
                     }
                 });
+
+                behavior.firebase.getListOfBehaviors(function (behaviors) {
+
+                    behaviorList = behaviors;
+                });
             }
+        });
+        
+        $(document).on('change', 'select',  function () {
+            var studentKey = $(this)[0].id.replace('Behaviors', '');
+            $('#startSession' + studentKey)[0].href = $('#startSession' + studentKey)[0].href.split(/[?#]/)[0];
+            $('#startSession' + studentKey)[0].href += "?behavior=" + $(this).val();
+            
         });
 
         $('#myModal').on('show.bs.modal', function (event) {
@@ -61,15 +75,36 @@
             var studentName = button.data('studentname');
             var modal = $(this);
             modal.find('.modal-title').text(studentName);
-            var listButton = $('<a/>',
-                        {
-                            href: "/Home/Counter/" + studentKey,
-                            text: "Start Count Session"
-                        });
             
-            $('#studentsList').append(listButton);
+            var behaviorSelect = $('<select/>',
+                {
+                    name: "Behaviors" + studentKey,
+                    id: "Behaviors" + studentKey
+
+                }).addClass('form-control');
+            
+            for (var key in behaviorList) {
+                var behavior = behaviorList[key];
+                var option = $('<option/>',
+                {
+                    text: behavior.Name,
+                    value: key,
+                });
+
+                behaviorSelect.append(option);
+            }
+
+            var startSessionButton = $('<a/>',
+                {
+                    id: "startSession" + studentKey,
+                    href: "/Home/Counter/" + studentKey,
+                    text: "Start Count Session"
+                }).addClass('btn btn-primary').attr("role", "button");
+            
             modal.find('.modal-body').empty();
-            modal.find('.modal-body').append(listButton);
+            modal.find('.modal-body').append(behaviorSelect).append('<br />').append(startSessionButton);
+            behaviorSelect.trigger('change');
+            
         })
     </script>
 }

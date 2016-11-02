@@ -14,6 +14,7 @@ namespace Behavior.Models.CounterViewModels
         }
         public Student student { get; set; }
         public Teacher teacher { get; set; }
+        public int behavior { get; set; }
 
     }
 }

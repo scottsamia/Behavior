@@ -12,8 +12,9 @@ $('#countDown').on("click", function () {
 });
 
 $('#save').on("click", function () {
+    behavior.counter.behavior = $('#behaviorID').val();
     if (behavior.counter.behavior != null) {
-        behavior.counter.behavior = $('select#Behaviors').val();
+        
         var countSession = behavior.firebase.addCountSession(behavior.counter.getCountSession());
         if (!$.isEmptyObject(countSession)) {
             $('#SessionDuration').text(countSession.duration + " seconds");
